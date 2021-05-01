@@ -1,18 +1,30 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container is-fluid body-principal">
+      <div class="columns">
+        <div class="column">
+          <list-members></list-members>
+        </div>
+      </div>
   </div>
+
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import {mapState} from 'vuex';
+import ListMembers from '../components/ListMembers';
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    ListMembers
+  },
+  computed: {
+    ...mapState(['listMembersHouse']),
   }
+
 }
 </script>
+<style scoped lang="scss">
+.body-principal {
+  background-color: aliceblue;
+}
+</style>
