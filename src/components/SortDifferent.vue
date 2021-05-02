@@ -40,7 +40,7 @@ export default {
   methods: {
     viewOptions() {
       this.getItems();
-      this.viewSelect = !this.viewSelect;
+    this.viewSelect = !this.viewSelect;
     },
     getItems() {
       this.listMembersHouse.forEach( item => this.data =  Object.keys(item));

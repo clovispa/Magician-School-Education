@@ -1,11 +1,12 @@
 <template>
   <div class="container">
-   <view-members></view-members>
+   <view-members :dataFull="listMembersHouse"></view-members>
   </div>
 </template>
 <script>
 
 import ViewMembers from "../components/ViewMembers";
+import {mapState} from 'vuex';
 export default {
   name: 'Student',
   components: {
@@ -14,6 +15,9 @@ export default {
   data () {
     return {
     }
+  },
+  computed: {
+    ...mapState(['listMembersHouse'])
   }
 }
 </script>

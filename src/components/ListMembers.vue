@@ -5,15 +5,26 @@
         <img class="img" src="../assets/house.jpg" alt="item.name">
       </div>
     </div>
+    <div class="columns">
+      <div class="column">
+        <p class="title is-4"> The Houses</p>
+      </div>
+    </div>
     <div class="columns is-multiline">
       <div class="column is-6" v-for="opt in listCharacters" :value="opt" :key="opt">
-        <div class="card cursor-harryPotter" @click="getMembersByHouse(opt)">
+        <div class="card cursor-harryPotter">
           <div class="card-content">
             <div class="media">
               <div class="media-content">
-                <p class="title is-4">{{opt != '' ? opt : 'No registered home'}}</p>
-                <a class="subtitle is-6">View Members</a>
+                <p class="title is-4">{{opt}}</p>
+                <a @click="getMembersByHouse(opt)" class=" is-6">View Members : {{ repeat[opt] }} </a>
               </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+             <span> <a @click="getStudent(opt)"> Students</a></span>   <span>|</span>
+              <span><a @click="getProfessors(opt)"> Professors</a></span>
             </div>
           </div>
         </div>
@@ -30,6 +41,14 @@ export default {
     return {
       listCharacters: [],
       dataHouse: [],
+      repeat: {},
+      student: [],
+      listHouse: [],
+      responseStudent: [],
+      studentText: null,
+      professorText: null,
+      responseStaff: [],
+      professor: [],
     }
   },
   mounted() {
@@ -39,33 +58,60 @@ export default {
     getCharacters () {
       ApiService.apiCharacters().then((res) => {
         const { data } = res
-        this.getHouse(data);
+        this.getIsEmpty(data);
       }).catch(error => {
         console.error(error)
       })
     },
+    getIsEmpty (data) {
+      this.dataHouse = data.filter(element => element.house)
+      this.getHouse(this.dataHouse);
+    },
     getHouse(data) {
       for(const item in data) {
-        this.dataHouse.push(data[item].house);
+        this.listHouse.push(data[item].house);
       }
-      this.getCount()
-      console.log(' this.dataHouse',  this.dataHouse)
-      this.listCharacters = new Set([...this.dataHouse])
+      this.getCount();
+      this.listCharacters = new Set([...this.listHouse]);
     },
     getCount () {
-      let repetidos = {};
-      this.dataHouse.forEach(function(numero){
-        repetidos[numero] = (repetidos[numero] || 0) + 1;
-      });
-      console.log(repetidos);
+      this.listHouse.forEach(element => this.repeat[element] = (this.repeat[element] || 0) + 1);
     },
     getMembersByHouse(item) {
       ApiService.apiHouse(item).then((res) => {
-        this.$store.commit('setListMembers', res.data)
-        this.$router.push('/members')
+        this.$store.commit('setListMembers', res.data);
+        this.$router.push('/members');
       }).catch( error => {
         console.error(error)
       })
+    },
+    getStudent(item) {
+      this.studenText = item
+      ApiService.apiStudent().then((res) => {
+        this.responseStudent = res.data
+        this.filterStudent(res.data);
+      }).catch( error => {
+        console.error(error)
+      })
+    },
+    filterStudent() {
+      this.student = this.responseStudent.filter(element => element.house === this.studenText);
+      this.$store.commit('setListMembers',this.student);
+      this.$router.push('/members');
+    },
+    getProfessors(item) {
+      this.professorText = item
+      ApiService.apiStaff().then((res) => {
+       this.responseStaff = res.data
+        this.filterProfessors();
+      }).catch( error => {
+        console.error(error)
+      })
+    },
+    filterProfessors() {
+      this.professor = this.responseStaff.filter(element => element.house === this.professorText);
+      this.$store.commit('setListMembers',this.professor);
+      this.$router.push('/members');
     }
   }
 }
