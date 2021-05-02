@@ -18,7 +18,7 @@ export default {
     ListMembers
   },
   computed: {
-    ...mapState(['listMembersHouse']),
+    ...mapState(['listMembersHouse'])
   }
 
 }

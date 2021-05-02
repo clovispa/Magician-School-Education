@@ -10,7 +10,6 @@ export default {
   name: 'Student',
   components: {
     ViewMembers
-
   },
   data () {
     return {

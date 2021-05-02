@@ -11,5 +11,4 @@ const apiHouse = function (house) {
 export default {
     apiCharacters,
     apiHouse
-
 }

@@ -11,15 +11,18 @@
       </div>
     </div>
     <div class="columns">
-      <div class="column">
+      <div class="column is-2">
         <div class="field-label is-normal">
           <button class="button is-black" @click="orderName">Order by Name</button>
         </div>
       </div>
-      <div class="column">
+      <div class="column is-2">
         <div class="field-label is-normal">
-          <button class="button is-black" @click="orderName">Order by Last Name</button>
+          <button class="button is-black" @click="reverseName">Order by Last Name</button>
         </div>
+      </div>
+      <div class="column">
+        <sort-different></sort-different>
       </div>
     </div>
       <div class="columns   is-multiline">
@@ -34,7 +37,7 @@
                   </figure>
                 </div>
                 <div class="media-content">
-                  <p class="title is-4">    {{ item.name}}</p>
+                  <p class="title is-4">{{ item.name}}</p>
                   <p class="subtitle is-6"><strong>blood status :</strong> {{ item.ancestry }}</p>
                 </div>
               </div>
@@ -58,13 +61,15 @@
   </div>
 </template>
 <script>
-import {mapState} from "vuex";
+import {mapState} from 'vuex';
+import SortDifferent from './SortDifferent';
 
 export default {
   name:'viewMembers',
+  components: {SortDifferent},
   data () {
     return {
-      search: ''
+      search: '',
     }
   },
   computed: {
@@ -75,9 +80,21 @@ export default {
       );
     }
   },
+   beforeMount() {
+    if (this.listMembersHouse === null) {
+      this.$router.push('/');
+    }
+  },
   methods: {
     orderName() {
       this.listMembersHouse.sort((a, b) => a.name.localeCompare(b.name));
+    },
+    reverseName() {
+      this.listMembersHouse.forEach( element => element.reverseName = element.name.split(' ').reverse().join(' '));
+      this.orderLastName();
+    },
+    orderLastName() {
+      this.listMembersHouse.sort((a, b) => a.reverseName.localeCompare(b.reverseName));
     }
   }
 }

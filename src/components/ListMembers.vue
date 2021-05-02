@@ -48,7 +48,16 @@ export default {
       for(const item in data) {
         this.dataHouse.push(data[item].house);
       }
+      this.getCount()
+      console.log(' this.dataHouse',  this.dataHouse)
       this.listCharacters = new Set([...this.dataHouse])
+    },
+    getCount () {
+      let repetidos = {};
+      this.dataHouse.forEach(function(numero){
+        repetidos[numero] = (repetidos[numero] || 0) + 1;
+      });
+      console.log(repetidos);
     },
     getMembersByHouse(item) {
       ApiService.apiHouse(item).then((res) => {
@@ -69,5 +78,6 @@ export default {
 .img {
   width: 50%;
   height: 80%;
+  border-radius: 20px;
 }
 </style>
