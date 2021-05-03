@@ -1,6 +1,13 @@
 <template>
-  <div class="container">
-   <view-members :dataFull="listMembersHouse"></view-members>
+  <div>
+    <div class="container is-fluid body-principal ">
+      <div class="columns ">
+        <div class="column">
+          <view-members :dataMembersHouse="listMembersHouse"></view-members>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
@@ -21,3 +28,8 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.body-principal {
+  background-color: aliceblue !important;
+}
+</style>

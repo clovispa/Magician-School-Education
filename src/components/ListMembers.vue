@@ -34,6 +34,8 @@
   </div>
 </template>
 <script>
+
+
 import ApiService from '../service/ApiService';
 export default {
   name: 'ListMembers',
@@ -52,19 +54,19 @@ export default {
     }
   },
   mounted() {
-    this.getCharacters()
+    this.getCharacters();
   },
   methods: {
     getCharacters () {
       ApiService.apiCharacters().then((res) => {
-        const { data } = res
+        const { data } = res;
         this.getIsEmpty(data);
       }).catch(error => {
         console.error(error)
       })
     },
     getIsEmpty (data) {
-      this.dataHouse = data.filter(element => element.house)
+      this.dataHouse = data.filter(element => element.house);
       this.getHouse(this.dataHouse);
     },
     getHouse(data) {
@@ -78,31 +80,37 @@ export default {
       this.listHouse.forEach(element => this.repeat[element] = (this.repeat[element] || 0) + 1);
     },
     getMembersByHouse(item) {
+      this.$store.commit('setMembersText', item);
       ApiService.apiHouse(item).then((res) => {
-        this.$store.commit('setListMembers', res.data);
+        const { data } = res;
+        this.$store.commit('setListMembers', data);
         this.$router.push('/members');
       }).catch( error => {
         console.error(error)
       })
     },
     getStudent(item) {
-      this.studenText = item
+      this.studenText = item;
+      this.$store.commit('setMembersText', item);
       ApiService.apiStudent().then((res) => {
-        this.responseStudent = res.data
-        this.filterStudent(res.data);
+        const { data } = res;
+        this.responseStudent = data;
+        this.filterStudent();
       }).catch( error => {
         console.error(error)
       })
     },
     filterStudent() {
       this.student = this.responseStudent.filter(element => element.house === this.studenText);
-      this.$store.commit('setListMembers',this.student);
+      this.$store.commit('setListMembers', this.student);
       this.$router.push('/members');
     },
     getProfessors(item) {
-      this.professorText = item
+      this.professorText = item;
+      this.$store.commit('setMembersText', item);
       ApiService.apiStaff().then((res) => {
-       this.responseStaff = res.data
+        const { data } = res;
+       this.responseStaff = data;
         this.filterProfessors();
       }).catch( error => {
         console.error(error)

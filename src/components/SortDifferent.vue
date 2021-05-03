@@ -4,14 +4,14 @@
     <div v-if="viewSelect" class="column">
       <div class="select">
         <select v-model="option">
-          <option  v-for="option in data" :key="option" :value="option">{{option}}</option>
+          <option  v-for="option in dataItems" :key="option" :value="option">{{option}}</option>
         </select>
       </div>
       <button class="button  is-black" @click="filteredItems(option)">Sort</button>
     </div>
     <div class="column">
      <span class="icon-text cursor-sort" @click="viewOptions">
-       <span>Add new sort filter</span>
+       <span>New filter</span>
         <span class="icon">
           <font-awesome-icon icon="cogs"></font-awesome-icon>
         </span>
@@ -29,7 +29,7 @@ export default {
   name: 'SortDifferent',
   data () {
     return {
-      data: [],
+      dataItems: [],
       option: '',
       viewSelect: false
     }
@@ -43,7 +43,7 @@ export default {
     this.viewSelect = !this.viewSelect;
     },
     getItems() {
-      this.listMembersHouse.forEach( item => this.data =  Object.keys(item));
+      this.listMembersHouse.forEach( item => this.dataItems =  Object.keys(item));
     },
     filteredItems (item) {
       let items = _.sortBy(this.listMembersHouse, [item], ['asc']);

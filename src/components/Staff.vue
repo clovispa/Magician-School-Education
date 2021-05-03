@@ -24,23 +24,24 @@ export default {
   data () {
     return {
       staff: null,
-      countStaff: null
+      countStaff: null,
     }
   },
   mounted() {
-    this.getStaffApi()
+    this.getStaffApi();
   },
   methods: {
     getStaffApi () {
       ApiService.apiStaff().then((res) => {
-        const { data } = res
-        this.countStaff = data.length
-        this.staff = data
+        const { data } = res;
+        this.countStaff = data.length;
+        this.staff = data;
       }).catch(error => {
         console.error(error)
       })
     },
     getStaff () {
+      this.$store.commit('setMembersText', 'Staff');
       this.$store.commit('setListMembers', this.staff);
       this.$router.push('/members');
     }

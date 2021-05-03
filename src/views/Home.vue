@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="columns">
-      <div class="column">
+      <div class="column is-12 is-centered">
        <staff></staff>
       </div>
     </div>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+
 import ListMembers from '../components/ListMembers';
 import Staff from "../components/Staff";
 export default {
@@ -28,9 +28,6 @@ export default {
   components: {
     Staff,
     ListMembers
-  },
-  computed: {
-    ...mapState(['listMembersHouse'])
   }
 
 }
